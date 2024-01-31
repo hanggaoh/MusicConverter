@@ -5,17 +5,19 @@ from pydub import AudioSegment
 SUPPORTED_FORMATS = {'.mp3', '.wav', '.flac', '.ape', '.ogg', '.aac', '.wma', '.m4a'}
 
 def convert_audio_to_format(input_file, output_file):
+    # Detect output file extension
     _, output_extension = os.path.splitext(output_file)
 
+    # Detect input file extension
     _, input_extension = os.path.splitext(input_file)
 
     if output_extension.lower() in SUPPORTED_FORMATS:
-        convert_to_format(input_file, input_extension, output_file, output_extension[1:])
+        convert_to_format(input_file, input_extension[1:], output_file, output_extension[1:])
     else:
         print(f"Unsupported output file format: {output_extension}")
 
-def convert_to_format(input_file, input_extension, output_file, output_format):
-    audio = AudioSegment.from_file(input_file, format=input_extension)
+def convert_to_format(input_file, input_format, output_file, output_format):
+    audio = AudioSegment.from_file(input_file, format=input_format)
     audio.export(output_file, format=output_format)
 
 def main():
